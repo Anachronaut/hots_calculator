@@ -23,7 +23,8 @@ class HotsSpiderSpider(scrapy.Spider):
                 item['win_rate'] = j.css("td.win_rate_cell::text").get()
                 item['popularity'] = j.css("td.popularity_cell::text").get()
                 item['ban_rate'] = j.css("td.ban_rate_cell::text").get()
-                item['games_played'] = j.css("td.games_played_cell::text").get()
+                games_played = j.css("td.games_played_cell::text").get()
+                item['games_played'] = int(games_played.replace(',',''))
                 item['win_total'] = j.css("td.wins_cell::text").get()
                 item['loss_total'] = j.css("td.losses_cell::text").get()
                 yield item

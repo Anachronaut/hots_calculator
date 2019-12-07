@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hots_calc.main_calc'
+    'main_calc'
 ]
 
 MIDDLEWARE = [
