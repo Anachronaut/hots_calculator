@@ -18,36 +18,10 @@ sys.path.append(os.path.dirname(os.path.abspath('../')))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'hots_calculator.settings'
 django.setup()
 
-'''
-file_str_replace() and django_setup_update() prevent errors from directory tree/import issues
-with the main_calc app in /hots_calc/settings.py, otherwise scraper or app do not recognize
-main_calc ALLOWED_APP depending on configuration
-'''
-'''
-def file_str_replace(str1, str2):
-    settings = open('..\..\hots_calc\hots_calculator\settings.py', 'rt')
-    data = settings.read()
-    data = data.replace(str1, str2)
-    settings.close()
-
-    settings = open('..\..\hots_calc\hots_calculator\settings.py','wt')
-    settings.write(data)
-    settings.close()
-
-
-def django_setup_update():
-
-    file_str_replace('  main_calc', '   hots_calc.main_calc')
-    django.setup()
-    file_str_replace('  hots_calc.main_calc', ' main_calc')
-
-django_setup_update()
-'''
-
 BOT_NAME = 'hots_scraper'
 
-SPIDER_MODULES = ['hots_scraper.spiders']
-NEWSPIDER_MODULE = 'hots_scraper.spiders'
+SPIDER_MODULES = ['hots_scraper.hots_scraper.spiders']
+NEWSPIDER_MODULE = 'hots_scraper.hots_scraper.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -100,10 +74,11 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'hots_scraper.pipelines.HotsScraperPipeline': 300,
-    'hots_scraper.pipelines.HeroImagesPipeline': 1
+    'hots_scraper.hots_scraper.pipelines.HotsScraperPipeline': 300,
+    'hots_scraper.hots_scraper.pipelines.HeroImagesPipeline': 1
 }
-IMAGES_STORE = '../../media/hero_images'
+
+IMAGES_STORE = '../media/hero_images'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
