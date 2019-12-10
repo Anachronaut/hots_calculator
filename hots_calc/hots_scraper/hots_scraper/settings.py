@@ -78,7 +78,7 @@ ITEM_PIPELINES = {
     'hots_scraper.hots_scraper.pipelines.HeroImagesPipeline': 1
 }
 
-IMAGES_STORE = '../media/hero_images'
+IMAGES_STORE = '../hots_calc/main_calc/media/hero_images'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

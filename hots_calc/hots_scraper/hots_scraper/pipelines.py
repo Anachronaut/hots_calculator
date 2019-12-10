@@ -9,16 +9,17 @@ import logging
 import sqlite3
 import scrapy
 from scrapy.pipelines.images import ImagesPipeline
-
+import os
 
 class HotsScraperPipeline(object):
 
     def __init__(self):
-        self.connection = sqlite3.connect('../db.sqlite3')
+        self.connection = sqlite3.connect('db.sqlite3')
         self.cursor = self.connection.cursor()
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS main_calc_hero(
             id INTEGER PRIMARY KEY, 
             name VARCHAR(75), 
+            image BLOB,
             win_rate REAL(8), 
             popularity INTEGER(3), 
             ban_rate REAL(8), 
@@ -30,22 +31,17 @@ class HotsScraperPipeline(object):
         self.cursor.execute("select * from main_calc_hero where name=?", (item['name'],))
         result = self.cursor.fetchone()
         if result:
-            logging.exception("Item already in database: %s" % item)
-            self.cursor.execute(            #1              2               3           4                   5               6                   7
-                "update main_calc_hero set win_rate = ?, popularity = ?, ban_rate = ?, games_played = ?, win_total = ?, loss_total = ? where name = ?",
-                (item['win_rate'], item['popularity'], item['ban_rate'], item['games_played'], item['win_total'], item['loss_total'], item['name']))
-                    #1                  2                   3                   4                   5                   6                   7
-            self.connection.commit()
-            logging.log(20, "Item stored : " % item)
-        else:
-            self.cursor.execute(            #1       2          3         4           5            6          7               1  2  3  4  5  6  7
-                "insert into main_calc_hero (name, win_rate, popularity, ban_rate, games_played, win_total, loss_total) values (?, ?, ?, ?, ?, ?, ?)",
-                (item['name'], item['win_rate'], item['popularity'], item['ban_rate'], item['games_played'], item['win_total'], item['loss_total']))
-                    #1                  2                   3                       4                   5                           6                   7
-            self.connection.commit()
-            logging.log(20, "Item stored : " % item)
-
-        item.save()
+            if item['name'] == result[1]:
+                logging.exception("Item already in database: %s" % item)
+                self.cursor.execute("delete from main_calc_hero where name = ?", (item['name'],))
+                self.connection.commit()
+                logging.log(20, "Item stored : " % item)
+            
+        image = 'hero_images/' + item['images'][0]['path']
+        self.cursor.execute("insert into main_calc_hero (name, image, win_rate, popularity, ban_rate, games_played, win_total, loss_total) values (?, ?, ?, ?, ?, ?, ?, ?)",
+            (item['name'], image, item['win_rate'], item['popularity'], item['ban_rate'], item['games_played'], item['win_total'], item['loss_total']))
+        self.connection.commit()
+        logging.log(20, "Item stored : " % item)
         return item
 
 def get_media_requests(self, item, info):

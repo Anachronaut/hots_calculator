@@ -1,5 +1,9 @@
 from django.db import models
+import os
 
+
+def get_hero_image_path(instance, filename):
+    return os.path.join('hero_images/', str(instance.id), filename)
 
 class Talent(models.Model):
     name = models.CharField(default="talent_name",max_length=75)
@@ -20,7 +24,7 @@ class Talent(models.Model):
 
 class Hero(models.Model):
     name = models.CharField(default="hero_name",max_length=25)
-    image = models.URLField(max_length=100, null=True)
+    image = models.ImageField(upload_to="hero_images/", blank=True, null=True)
     win_rate = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
     popularity = models.IntegerField(default=0)
     ban_rate = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
@@ -28,6 +32,9 @@ class Hero(models.Model):
     win_total = models.IntegerField(default=0)
     loss_total = models.IntegerField(default=0)
 
+    def __str__(self):
+        return '%s' % (self.name)
+'''
     #talents[#] are One-to-Many lists of talent choices by hero level
     talents_one = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="level_one_talents", null=True)
     talents_four = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="level_four_talents", null=True)
@@ -36,7 +43,8 @@ class Hero(models.Model):
     talents_thirteen = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="level_thirteen_talents", null=True)
     talents_sixteen = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="level_sixteen_talents", null=True)
     talents_twenty = models.ForeignKey(Talent, on_delete=models.CASCADE, related_name="level_twenty_talents", null=True)
-    '''
+'''
+'''
     ***User's personal stats?***
     user_win_rate = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     user_games_played = models.IntegerField(default=0)
@@ -55,9 +63,6 @@ class Hero(models.Model):
     assists_min = models.IntegerField(default=0)
     assists_avg = models.IntegerField(default=0)
     '''
-
-    def __str__(self):
-        return '%s' % (self.name)
 
 class Build(models.Model):
     hero = models.ForeignKey(Hero, on_delete=models.CASCADE)

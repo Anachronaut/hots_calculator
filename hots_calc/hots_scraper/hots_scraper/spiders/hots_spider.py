@@ -10,7 +10,7 @@ class HotsSpider(scrapy.Spider):
 
     def parse(self, response):
         custom_settings = {
-        "IMAGES_STORE": '../../../media/hero_images'
+        "IMAGES_STORE": '../hots_calc/main_calc/media/hero_images'
     }
         data = response.css("table.primary-data-table tbody tr")
         
@@ -29,6 +29,8 @@ class HotsSpider(scrapy.Spider):
                 item['ban_rate'] = j.css("td.ban_rate_cell::text").get()
                 games_played = j.css("td.games_played_cell::text").get()
                 item['games_played'] = int(games_played.replace(',',''))
-                item['win_total'] = j.css("td.wins_cell::text").get()
-                item['loss_total'] = j.css("td.losses_cell::text").get()
+                win_total = j.css("td.wins_cell::text").get()
+                item['win_total'] = int(win_total.replace(',',''))
+                loss_total = j.css("td.losses_cell::text").get()
+                item['loss_total'] = int(loss_total.replace(',',''))
                 yield item
