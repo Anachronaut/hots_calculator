@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from hots_scraper.items import HotsScraperHero
+from hots_scraper.hots_scraper.items import HotsScraperHero
 
 
-class HotsSpiderSpider(scrapy.Spider):
+class HotsSpider(scrapy.Spider):
     name = 'hots_spider'
     allowed_domains = ['heroesprofile.com']
     start_urls = ['https://heroesprofile.com/Global/Hero/']
