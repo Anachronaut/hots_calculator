@@ -5,4 +5,9 @@ from .models import Hero
 
 def homepage(request):
     heroes = Hero.objects.all().order_by('popularity').reverse()
-    return render(request, 'home.html', {'heroes': heroes,})
+    if request.method == 'GET':
+        images = request.GET.getlist('image')
+        return render(request, 'home.html', {'heroes': heroes, 'images': images})
+    else:
+        return render(request, 'home.html', {'heroes': heroes})
+    

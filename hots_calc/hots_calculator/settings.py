@@ -24,7 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main_calc'
+    'main_calc',
+    'jquery',
+    'jquery_ui'
 ]
 
 MIDDLEWARE = [

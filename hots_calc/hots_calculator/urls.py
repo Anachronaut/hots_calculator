@@ -23,7 +23,6 @@ app_name = 'main_calc'
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
-    #path('hero/<int:hero_pk>', views.team_select, name='team_select'),
     path('admin/', admin.site.urls),
 ]
 

@@ -5,7 +5,62 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"></link>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet"></link>
-  <link rel="stylesheet" href='{% static 'css/base_style.css' %}'></link>
+   <link rel="stylesheet" href='{% static 'css/base_style.css' %}'></link>
+  <!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type='text/javascript' src='{% static 'js/jquery.js' %}'></script>
+  <script type='text/javascript' src='{% static 'js/jquery-ui.js' %}'></script>
+  <link rel='stylesheet' type='text/css' href='{% static 'css/jquery-ui/smoothness/jquery-ui.css' %}'></link> -->
+  
+  
+  <script>
+    $( function() {
+        $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+        _renderItem: function( ul, item ) {
+            var li = $( "<li>" ),
+            wrapper = $( "<div>", { text: item.label } );
+    
+            if ( item.disabled ) {
+            li.addClass( "ui-state-disabled" );
+            }
+    
+            $( "<span>", {
+            style: item.element.attr( "data-style" ),
+            "class": "ui-icon " + item.element.attr( "data-class" )
+            })
+            .appendTo( wrapper );
+    
+            return li.append( wrapper ).appendTo( ul );
+        }
+        });
+    
+        $( "#ally_1" )
+        .iconselectmenu()
+        .iconselectmenu( "menuWidget")
+            .addClass( "ui-menu-icons avatar" );
+    } );
+  </script>
+  <style>
+      h2 {
+      margin: 30px 0 0 0;
+      }
+      fieldset {
+      border: 0;
+      }
+      label {
+      display: block;
+      }
+  
+  
+      /* select with CSS avatar icons */
+      option.avatar {
+      background-repeat: no-repeat !important;
+      padding-left: 20px;
+      }
+      .avatar .ui-icon {
+      background-position: left top;
+      }
+  </style>
 </head>
 
 <body>
