@@ -2,9 +2,105 @@
 
 {% block content %}
 
-    {% load static %}
-        <P>Nexus Calculator</p>
-        <P>A Draft Calculator for Heroes of the Storm</P>
+{% load static %}
+
+<div class="ally_select">
+    <table>
+        <td>
+            <form>
+                <select autocomplete="off" class="ally-select" name="ally_1">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+
+            <form>
+                <select autocomplete="off" class="ally-select" name="ally_2">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+
+            <form>
+                <select autocomplete="off" class="ally-select" name="ally_3">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+                
+            <form>
+                <select autocomplete="off" class="ally-select" name="ally_4">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+
+            <form>
+                <select autocomplete="off" class="ally-select" name="ally_5">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+        </td>
+
+        <td>
+            <form>
+                <select autocomplete="off" class="enemy-select" name="enemy_1">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+
+            <form>
+                <select autocomplete="off" class="enemy-select" name="enemy_2">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+
+            <form>
+                <select autocomplete="off" class="enemy-select" name="enemy_3">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+                
+            <form>
+                <select autocomplete="off" class="enemy-select" name="enemy_4">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+
+            <form>
+                <select autocomplete="off" class="enemy-select" name="enemy_5">
+                    {% for hero in heroes %}
+                        <option value="{{ hero.id }}">{{ hero.name }}</option>
+                    {% endfor %}
+                    <option value="none" selected hidden disabled>Select a Hero</option>
+                </select>
+            </form> <br>
+        </td>
+    </table>
+</div>
 
 
 

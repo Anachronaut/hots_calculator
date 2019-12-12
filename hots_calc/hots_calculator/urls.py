@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-import main_calc.views as views
+from main_calc import views
 
 app_name = 'main_calc'
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    #path('hero/<int:hero_pk>', views.team_select, name='team_select'),
     path('admin/', admin.site.urls),
 ]
 
