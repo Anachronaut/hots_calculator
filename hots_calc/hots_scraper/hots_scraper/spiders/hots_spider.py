@@ -13,8 +13,6 @@ class HotsSpider(scrapy.Spider):
         "IMAGES_STORE": '../hots_calc/main_calc/media/hero_images'
     }
         data = response.css("table.primary-data-table tbody tr")
-        
-        hero_dict={}
 
         for i,j in enumerate(data):
             item = HotsScraperHero()
