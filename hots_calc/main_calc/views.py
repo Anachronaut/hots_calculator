@@ -5,15 +5,6 @@ from .models import Hero
 from .forms import AllySelectForm, OpponentSelectForm, AllyBanForm, OpponentBanForm
 import json
 
-'''
-def homepage(request):
-    heroes = Hero.objects.all().order_by('popularity').reverse()
-    if request.method == 'GET':
-        images = request.GET.getlist('image')
-        return render(request, 'home.html', {'heroes': heroes, 'images': images})
-    else:
-        return render(request, 'home.html', {'heroes': heroes})
-'''
 
 def homepage(request):
     heroes = Hero.objects.all()
