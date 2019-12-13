@@ -23,6 +23,8 @@ app_name = 'main_calc'
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    path('load', views.load_select, name="load_select"),
+    path('update', views.update_select, name='update_select'),
     path('admin/', admin.site.urls),
 ]
 

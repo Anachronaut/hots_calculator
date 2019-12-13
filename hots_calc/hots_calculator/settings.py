@@ -111,4 +111,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 #Media URL for user-uploaded media
 MEDIA_URL = '/main_calc/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'main_calc/media')

@@ -32,5 +32,16 @@ body {
 .home-body {
     padding-top: 30px;
     padding-left: 40px;
+    padding-right: 40px;
+}
+
+.home-body table {
     color: #b5c4f5;
+    font-size: 200%;
+    -webkit-text-stroke-width: 0.25px;
+    -webkit-text-stroke-color: darkgrey;
+}
+
+.home-body table select {
+    color: black;
 }

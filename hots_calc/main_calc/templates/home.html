@@ -5,82 +5,28 @@
 
 {% load static %}
 
-    <table style="width:100%">
-        <form>
-            <fieldset>
-            <tr>
-                <th><select autocomplete="off" id="ally-select" name="ally_1">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}" data-class="avatar" data-style="background-image:url({{ hero.image.url }});">  {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-                <th><select autocomplete="off" class="enemy-select" name="enemy_1">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-            </tr>
-            <tr>
-                <th><select autocomplete="off" class="ally-select" name="ally_2">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-                <th><select autocomplete="off" class="enemy-select" name="enemy_2">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-            </tr>
-            <tr>
-                <th><select autocomplete="off" class="ally-select" name="ally_3">
-                        {% for hero in heroes %}
-                            <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                        {% endfor %}
-                        <option value="none" selected hidden disabled>Select a Hero</option>
-                    </select></th>
-                    <th><select autocomplete="off" class="enemy-select" name="enemy_3">
-                        {% for hero in heroes %}
-                            <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                        {% endfor %}
-                        <option value="none" selected hidden disabled>Select a Hero</option>
-                    </select></th>
-            </tr>
-            <tr>
-                <th><select autocomplete="off" class="ally-select" name="ally_4">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-                <th><select autocomplete="off" class="enemy-select" name="enemy_4">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-            </tr>
-            <tr>
-                <th><select autocomplete="off" class="ally-select" name="ally_5">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-                <th><select autocomplete="off" class="enemy-select" name="enemy_5">
-                    {% for hero in heroes %}
-                        <option value="{{ hero.id }}"> {{ hero.name }} </option> 
-                    {% endfor %}
-                    <option value="none" selected hidden disabled>Select a Hero</option>
-                </select></th>
-            </tr>
-            </fieldset>
-        </form>
+<form method="POST" autocomplete="off">
+    {% csrf_token %}
+    <table width="100%">
+        {% for i in '123' %}
+        <tr>
+            <th>{{ ally_ban_form.as_p }}</th>
+            <th width="100%"></th>
+            <th>{{ opp_ban_form.as_p }}</th>
+        </tr>
+        {% endfor %}
     </table>
+    <br>
+    <table width="100%">
+        {% for i in '12345' %}
+            <tr>
+                <th>{{ ally_select_form.as_p }}</th>
+                <th width="100%"></th>
+                <th>{{ opp_select_form.as_p }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+</form>
 
 
 
