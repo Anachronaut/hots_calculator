@@ -14,7 +14,6 @@ def homepage(request):
     opp_ban_form = OpponentBanForm()
     if request.method == 'POST':
         if ally_select_form.is_valid():
-            #hero = get_object_or_404(Hero)
             return redirect('')
         elif ally_ban_form.is_valid():
             return redirect('')
@@ -36,8 +35,9 @@ def homepage(request):
     )
 
 def load_select(request):
+    
     initial_data = {
-
+        
     }
 
     return JsonResponse(initial_data)

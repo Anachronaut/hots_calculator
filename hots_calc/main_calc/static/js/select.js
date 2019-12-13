@@ -8,6 +8,8 @@ let opp_ban = document.querySelector('#id_opp_ban')
 ally_ban.addEventListener('change', selectChoice)
 opp_ban.addEventListener('change', selectChoice)
 
+loadForms()
+
 
 function loadForms() {
     fetch(loadSelectUrl)
@@ -25,6 +27,7 @@ function selectChoice(event) {
     let update_text = select.dataset.update_text
     console.log(select, select.dataset)
     let data = { update_text: update_text}
+    userAction(data)
 }
 
 function userAction(data) {
