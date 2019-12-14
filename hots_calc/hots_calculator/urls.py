@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from main_calc import views
 
@@ -23,9 +24,8 @@ app_name = 'main_calc'
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
-    path('load', views.load_select, name="load_select"),
-    path('update', views.update_select, name='update_select'),
-    path('admin/', admin.site.urls),
+    path('reset/', views.reset, name="reset"),
+    url(r'^ajax/validate_hero/$', views.validate_hero, name='validate_hero')
 ]
 
 if settings.DEBUG:

@@ -4,29 +4,125 @@
 
 
 {% load static %}
+<div class="reset" style="text-align: center;">
+    <form method="get" action='reset'>
+        <input type="submit" class="btn" value="Reset" name="reset-button">
+    </form>
+</div>
 
-<form method="POST" autocomplete="off">
+<form method="post" action="{% url 'homepage' %}">
     {% csrf_token %}
-    <table width="100%">
-        {% for i in '123' %}
+    <table class="hero_ban">
         <tr>
-            <th>{{ ally_ban_form.as_p }}</th>
+            <th><img id="ally_ban_image1" class="ally_ban_image" src="main_calc/media/hero_images/unk.png" /></th>
+            <th><img id="ally_ban_image2" class="ally_ban_image" src="main_calc/media/hero_images/unk.png" /></th>
+            <th><img id="ally_ban_image3" class="ally_ban_image" src="main_calc/media/hero_images/unk.png" /></th>
             <th width="100%"></th>
-            <th>{{ opp_ban_form.as_p }}</th>
+            <th><img id="opp_ban_image1" class="opp_ban_image" src="main_calc/media/hero_images/unk.png" /></th>
+            <th><img id="opp_ban_image2" class="opp_ban_image" src="main_calc/media/hero_images/unk.png" /></th>
+            <th><img id="opp_ban_image3" class="opp_ban_image" src="main_calc/media/hero_images/unk.png" /></th>
         </tr>
-        {% endfor %}
+        <tr>
+            <th>{{ ally_ban_form1.as_p }}</th>
+            <th>{{ ally_ban_form2.as_p }}</th>
+            <th>{{ ally_ban_form3.as_p }}</th>
+            <th width="100%"></th>
+            <th>{{ opp_ban_form1.as_p }}</th>
+            <th>{{ opp_ban_form2.as_p }}</th>
+            <th>{{ opp_ban_form3.as_p }}</th>
+        </tr>
     </table>
-    <br>
-    <table width="100%">
-        {% for i in '12345' %}
+    <br><br><br>
+    <table class="hero_select" width="100%">
             <tr>
-                <th>{{ ally_select_form.as_p }}</th>
+                <th>{{ ally_select_form1.as_p }}</th>
+                <th><img id="ally_select_image1" class="hero_image" src="main_calc/media/hero_images/unk.png"/></th>
                 <th width="100%"></th>
-                <th>{{ opp_select_form.as_p }}</th>
+                <th><img id="opp_select_image1" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th>{{ opp_select_form1.as_p }}</th>
             </tr>
-        {% endfor %}
+            <tr>
+                <th>{{ ally_select_form2.as_p }}</th>
+                <th><img id="ally_select_image2" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th width="100%"></th>
+                <th><img id="opp_select_image2" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th>{{ opp_select_form2.as_p }}</th>
+            </tr>
+            <tr>
+                <th>{{ ally_select_form3.as_p }}</th>
+                <th><img id="ally_select_image3" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th width="100%"></th>
+                <th><img id="opp_select_image3" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th>{{ opp_select_form3.as_p }}</th>
+            </tr>
+            <tr>
+                <th>{{ ally_select_form4.as_p }}</th>
+                <th><img id="ally_select_image4" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th width="100%"></th>
+                <th><img id="opp_select_image4" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th>{{ opp_select_form4.as_p }}</th>
+            </tr>
+            <tr>
+                <th>{{ ally_select_form5.as_p }}</th>
+                <th><img id="ally_select_image5" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th width="100%"></th>
+                <th><img id="opp_select_image5" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
+                <th>{{ opp_select_form5.as_p }}</th>
+            </tr>
     </table>
 </form>
+
+
+{% block javascript %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+$(".select_form").change(function () {
+    var hero =  $(this).val();
+    var formid = $(this).attr("id");
+    var formidstr = '#'+formid
+    
+    last_no_select = formidstr.slice(-9,-8)
+    last_no_ban = formidstr.slice(-7,-6)
+    first_slice = formidstr.slice(4,5)
+    ally_second_slice = formidstr.slice(9,10)
+    opp_second_slice = formidstr.slice(8,9)
+
+    if (first_slice === "a" && ally_second_slice === "s") {
+        imgidstr = "#ally_select_image"+last_no_select
+    } else if (first_slice === "a" && ally_second_slice === "b") {
+        imgidstr = "#ally_ban_image"+last_no_ban
+    } else if (first_slice === "o" && opp_second_slice === "s") {
+        imgidstr = "#opp_select_image"+last_no_select
+    } else if (first_slice === "o" && opp_second_slice === "b") {
+        imgidstr = "#opp_ban_image"+last_no_ban
+    }
+
+    $.ajax({
+        url: '/ajax/validate_hero/',
+        data: {
+            'hero': hero
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_chosen) {
+                alert("This hero has already been chosen or banned")
+                $(formidstr).prop('selectedIndex', 0);
+            }
+            else {
+                hero_img_src = 'main_calc/media/'+data.hero_image
+                $(imgidstr).attr("src", hero_img_src)
+            }
+        }
+    })
+});
+
+/* 
+
+*/
+
+</script>
+{% endblock %}
 
 
 
