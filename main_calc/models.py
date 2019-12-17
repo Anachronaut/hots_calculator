@@ -5,6 +5,7 @@ import os
 def get_hero_image_path(instance, filename):
     return os.path.join('hero_images/', str(instance.id), filename)
 
+'''
 class Talent(models.Model):
     name = models.CharField(default="talent_name",max_length=75)
     level = models.IntegerField(default=1)
@@ -14,7 +15,7 @@ class Talent(models.Model):
     games_played = models.IntegerField(default=0)
     win_total = models.IntegerField(default=0)
     loss_total = models.IntegerField(default=0)
-    '''
+
     ***User's personal stats?***
     user_win_rate = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     user_games_played = models.IntegerField(default=0)
@@ -31,6 +32,26 @@ class Hero(models.Model):
     games_played = models.IntegerField(default=0)
     win_total = models.IntegerField(default=0)
     loss_total = models.IntegerField(default=0)
+    ally_1 = models.CharField(default="hero_name",max_length=25)
+    ally_1_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    ally_2 = models.CharField(default="hero_name",max_length=25)
+    ally_2_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    ally_3 = models.CharField(default="hero_name",max_length=25)
+    ally_3_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    ally_4 = models.CharField(default="hero_name",max_length=25)
+    ally_4_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    ally_5 = models.CharField(default="hero_name",max_length=25)
+    ally_5_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    enemy_1 = models.CharField(default="hero_name",max_length=25)
+    enemy_1_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    enemy_2 = models.CharField(default="hero_name",max_length=25)
+    enemy_2_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    enemy_3 = models.CharField(default="hero_name",max_length=25)
+    enemy_3_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    enemy_4 = models.CharField(default="hero_name",max_length=25)
+    enemy_4_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
+    enemy_5 = models.CharField(default="hero_name",max_length=25)
+    enemy_5_win = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
 
     def __str__(self):
         return '%s' % (self.name)
@@ -64,6 +85,7 @@ class Hero(models.Model):
     assists_avg = models.IntegerField(default=0)
     '''
 
+'''
 class Build(models.Model):
     hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
 
@@ -79,10 +101,10 @@ class Build(models.Model):
     win_total = models.IntegerField(default=0)
     loss_total = models.IntegerField(default=0)
     win_chance = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
-    '''
+    
     ***User's personal stats?***
     user_win_rate = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     user_games_played = models.IntegerField(default=0)
     user_win_total = models.IntegerField(default=0)
     user_loss_total = models.IntegerField(default=0)
-    '''
+'''

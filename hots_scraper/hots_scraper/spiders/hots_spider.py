@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import re
+from selenium import webdriver
 from hots_scraper.hots_scraper.items import HotsScraperHero
 
 
@@ -31,4 +33,38 @@ class HotsSpider(scrapy.Spider):
                 item['win_total'] = int(win_total.replace(',',''))
                 loss_total = j.css("td.losses_cell::text").get()
                 item['loss_total'] = int(loss_total.replace(',',''))
-                yield item
+                request = scrapy.Request("https://heroesprofile.com/Global/Matchups/?hero="+item['name'],
+                                         callback=self.parse_match)
+                request.meta['item'] = item
+                yield request
+
+    def parse_match(self, response):
+        item = response.meta['item']
+        data = response.css("div.rectangular-box.hero-category div.hero-wrapper div.popup-trigger")
+        match_list = []
+        for i in data:
+            popup_txt = i.css("div.popup::text").get()
+            #print(item['name'], popup_txt)
+            win_per = re.search('(\d+(\.\d+)?%)',popup_txt).group()
+            hero_name = i.css("div.popup h4::text").get()
+            hero_win_tuple = (hero_name, win_per)
+            match_list.append(hero_win_tuple)
+        print('URL:', response.request.url, 'NAME:', item['name'], 'LIST:', match_list)
+        
+        #print('ITEM:', item['name'])
+        
+        for i,j in enumerate(match_list[:5],1):
+            str_i = str(i)
+            #print(item['name']+':','Ally'+str_i,j)
+            '''
+            item['ally_'+str_i] = j[0]
+            item['ally_'+str_i+'_win'] = j[1]
+            '''
+        for i,j in enumerate(match_list[5:],1):
+            str_i = str(i)
+            #print(item['name']+':','Enemy'+str_i,j)
+            '''
+            item['enemy_'+str_i] = j[0]
+            item['enemy_'+str_i+'_win'] = j[1]
+            '''
+        yield item

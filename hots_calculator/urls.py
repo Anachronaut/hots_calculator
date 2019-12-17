@@ -25,7 +25,8 @@ app_name = 'main_calc'
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('reset/', views.reset, name="reset"),
-    url(r'^ajax/validate_hero/$', views.validate_hero, name='validate_hero')
+    url(r'^ajax/validate_hero/$', views.validate_hero, name='validate_hero'),
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

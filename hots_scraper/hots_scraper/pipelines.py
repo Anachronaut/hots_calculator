@@ -25,23 +25,43 @@ class HotsScraperPipeline(object):
             ban_rate REAL(8), 
             games_played INTEGER(15), 
             win_total INTEGER(15), 
-            loss_total INTEGER(15))''')
+            loss_total INTEGER(15),
+            ally_1 VARCHAR(75),
+            ally_1_win REAL(8),
+            ally_2 VARCHAR(75),
+            ally_2_win REAL(8),
+            ally_3 VARCHAR(75),
+            ally_3_win REAL(8),
+            ally_4 VARCHAR(75),
+            ally_4_win REAL(8),
+            ally_5 VARCHAR(75),
+            ally_5_win REAL(8),
+            enemy_1 VARCHAR(75),
+            enemy_1_win REAL(8),
+            enemy_2 VARCHAR(75),
+            enemy_2_win REAL(8),
+            enemy_3 VARCHAR(75),
+            enemy_3_win REAL(8),
+            enemy_4 VARCHAR(75),
+            enemy_4_win REAL(8),
+            enemy_5 VARCHAR(75),
+            enemy_5_win REAL(8))''')
 
     def process_item(self, item, spider):
         self.cursor.execute("select * from main_calc_hero where name=?", (item['name'],))
         result = self.cursor.fetchone()
         if result:
             if item['name'] == result[1]:
-                logging.exception("Item already in database: %s" % item)
+                #logging.exception("Item already in database: %s" % item)
                 self.cursor.execute("delete from main_calc_hero where name = ?", (item['name'],))
                 self.connection.commit()
-                logging.log(20, "Item stored : " % item)
+                #logging.log(20, "Item stored : " % item)
             
         image = 'hero_images/' + item['images'][0]['path']
         self.cursor.execute("insert into main_calc_hero (name, image, win_rate, popularity, ban_rate, games_played, win_total, loss_total) values (?, ?, ?, ?, ?, ?, ?, ?)",
             (item['name'], image, item['win_rate'], item['popularity'], item['ban_rate'], item['games_played'], item['win_total'], item['loss_total']))
         self.connection.commit()
-        logging.log(20, "Item stored : " % item)
+        #logging.log(20, "Item stored : " % item)
         return item
 
 def get_media_requests(self, item, info):
