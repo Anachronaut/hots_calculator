@@ -12,7 +12,6 @@ from scrapy.pipelines.images import ImagesPipeline
 import os
 
 class HotsScraperPipeline(object):
-
     def __init__(self):
         self.connection = sqlite3.connect('db.sqlite3')
         self.cursor = self.connection.cursor()
@@ -48,6 +47,7 @@ class HotsScraperPipeline(object):
             enemy_5_win REAL(8))''')
 
     def process_item(self, item, spider):
+        print('PIPELINE: ', item)
         self.cursor.execute("select * from main_calc_hero where name=?", (item['name'],))
         result = self.cursor.fetchone()
         if result:
@@ -58,8 +58,13 @@ class HotsScraperPipeline(object):
                 #logging.log(20, "Item stored : " % item)
             
         image = 'hero_images/' + item['images'][0]['path']
-        self.cursor.execute("insert into main_calc_hero (name, image, win_rate, popularity, ban_rate, games_played, win_total, loss_total) values (?, ?, ?, ?, ?, ?, ?, ?)",
-            (item['name'], image, item['win_rate'], item['popularity'], item['ban_rate'], item['games_played'], item['win_total'], item['loss_total']))
+
+        insert_str = "insert into main_calc_hero (name, image, win_rate, popularity, ban_rate, games_played, win_total, loss_total, ally_1, ally_1_win, ally_2, ally_2_win, ally_3, ally_3_win, ally_4, ally_4_win, ally_5, ally_5_win, enemy_1, enemy_1_win, enemy_2, enemy_2_win, enemy_3, enemy_3_win, enemy_4, enemy_4_win, enemy_5, enemy_5_win) values ("+(27*("?, "))+"?)"
+
+        insert_vals = (item['name'], image, item['win_rate'], item['popularity'], item['ban_rate'], item['games_played'], item['win_total'], item['loss_total'], item['ally_1'], item['ally_1_win'], item['ally_2'], item['ally_2_win'], item['ally_3'], item['ally_3_win'], item['ally_4'], item['ally_4_win'], item['ally_5'], item['ally_5_win'], item['enemy_1'], item['enemy_1_win'], item['enemy_2'], item['enemy_2_win'], item['enemy_3'], item['enemy_3_win'], item['enemy_4'], item['enemy_4_win'], item['enemy_5'], item['enemy_5_win'])
+        
+
+        self.cursor.execute(insert_str, insert_vals)
         self.connection.commit()
         #logging.log(20, "Item stored : " % item)
         return item

@@ -36,8 +36,47 @@
     <table class="hero_select" width="100%">
             <tr>
                 <th>{{ ally_select_form1.as_p }}</th>
-                <th><img id="ally_select_image1" class="hero_image" src="main_calc/media/hero_images/unk.png"/></th>
+                <th>
+                    <a href="#" id="ally_select_image1_tooltip" data-toggle="tooltip" title="" data-html="true">
+                        <img id="ally_select_image1" class="hero_image" src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" id="ally_select_image1_match_1_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_1" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_2_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_2" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_3_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_3" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_4_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_4" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_5_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_5" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <br>
+                    <a href="#" id="ally_select_image1_match_6_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_6" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_7_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_7" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_8_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_8" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_9_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_9" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                    <a href="#" id="ally_select_image1_match_10_tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-html="true">
+                        <img id="ally_select_image1_match_10" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/>
+                    </a>
+                </th>
                 <th width="100%"></th>
+                <th><img id="ally_match_image6" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/><img id="ally_match_image7" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/><img id="ally_match_image8" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/><img id="ally_match_image9" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/><img id="ally_match_image10" class="ally_match_image"src="main_calc/media/hero_images/unk.png"/><br>
+                    <img id="enemy_match_image6" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/><img id="enemy_match_image7" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/><img id="enemy_match_image8" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/><img id="enemy_match_image9" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/><img id="enemy_match_image10" class="enemy_match_image"src="main_calc/media/hero_images/unk.png"/></th>
                 <th><img id="opp_select_image1" class="hero_image" src="main_calc/media/hero_images/unk.png" /></th>
                 <th>{{ opp_select_form1.as_p }}</th>
             </tr>
@@ -77,26 +116,41 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+
+
 $(".select_form").change(function () {
     var hero =  $(this).val();
     var formid = $(this).attr("id");
-    var formidstr = '#'+formid
+    var formidstr = '#'+formid;
     
-    last_no_select = formidstr.slice(-9,-8)
-    last_no_ban = formidstr.slice(-7,-6)
-    first_slice = formidstr.slice(4,5)
-    ally_second_slice = formidstr.slice(9,10)
-    opp_second_slice = formidstr.slice(8,9)
+    last_no_select = formidstr.slice(-9,-8);
+    last_no_ban = formidstr.slice(-7,-6);
+    first_slice = formidstr.slice(4,5);
+    ally_second_slice = formidstr.slice(9,10);
+    opp_second_slice = formidstr.slice(8,9);
 
     if (first_slice === "a" && ally_second_slice === "s") {
-        imgidstr = "#ally_select_image"+last_no_select
+        hero_imgidstr = "#ally_select_image"+last_no_select;
     } else if (first_slice === "a" && ally_second_slice === "b") {
-        imgidstr = "#ally_ban_image"+last_no_ban
+        hero_imgidstr = "#ally_ban_image"+last_no_ban;
     } else if (first_slice === "o" && opp_second_slice === "s") {
-        imgidstr = "#opp_select_image"+last_no_select
+        hero_imgidstr = "#opp_select_image"+last_no_select;
     } else if (first_slice === "o" && opp_second_slice === "b") {
-        imgidstr = "#opp_ban_image"+last_no_ban
+        hero_imgidstr = "#opp_ban_image"+last_no_ban;
     }
+        ally_1_imgidstr = hero_imgidstr+"_match_1";
+        ally_2_imgidstr = hero_imgidstr+"_match_2";
+        ally_3_imgidstr = hero_imgidstr+"_match_3";
+        ally_4_imgidstr = hero_imgidstr+"_match_4";
+        ally_5_imgidstr = hero_imgidstr+"_match_5";
+        enemy_1_imgidstr = hero_imgidstr+"_match_6";
+        enemy_2_imgidstr = hero_imgidstr+"_match_7";
+        enemy_3_imgidstr = hero_imgidstr+"_match_8";
+        enemy_4_imgidstr = hero_imgidstr+"_match_9";
+        enemy_5_imgidstr = hero_imgidstr+"_match_10";
 
     $.ajax({
         url: '/ajax/validate_hero/',
@@ -110,8 +164,54 @@ $(".select_form").change(function () {
                 $(formidstr).prop('selectedIndex', 0);
             }
             else {
-                hero_img_src = 'main_calc/media/'+data.hero_image
-                $(imgidstr).attr("src", hero_img_src)
+                hero_img_src = 'main_calc/media/'+data.hero_img;
+                $(hero_imgidstr).attr("src", hero_img_src);
+                $(hero_imgidstr+"_tooltip").attr("data-original-title", 'Win Rate: '+data.hero_winr+'%<br\>Total Wins: '+data.hero_wins+'<br\>Total Losses: '+data.hero_loss+'<br\>Games Played: '+data.hero_gplay);
+
+                
+                
+                ally_1_img_src = 'main_calc/media/'+data.ally_img1;
+                $(ally_1_imgidstr).attr("src", ally_1_img_src);
+                $(ally_1_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.ally_name1+'</b\><br\> Win Rate With '+data.hero_name+': '+data.ally_win1+'%');
+
+                ally_2_img_src = 'main_calc/media/'+data.ally_img2;
+                $(ally_2_imgidstr).attr("src", ally_2_img_src);
+                $(ally_2_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.ally_name2+'</b\><br\> Win Rate With '+data.hero_name+': '+data.ally_win1+'%');
+
+                ally_3_img_src = 'main_calc/media/'+data.ally_img3;
+                $(ally_3_imgidstr).attr("src", ally_3_img_src);
+                $(ally_3_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.ally_name3+'</b\><br\> Win Rate With '+data.hero_name+': '+data.ally_win1+'%');
+
+                ally_4_img_src = 'main_calc/media/'+data.ally_img4;
+                $(ally_4_imgidstr).attr("src", ally_4_img_src);
+                $(ally_4_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.ally_name4+'</b\><br\> Win Rate With '+data.hero_name+': '+data.ally_win1+'%');
+
+                ally_5_img_src = 'main_calc/media/'+data.ally_img5;
+                $(ally_5_imgidstr).attr("src", ally_5_img_src);
+                $(ally_5_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.ally_name5+'</b\><br\> Win Rate with '+data.hero_name+': '+data.ally_win1+'%');
+                
+
+                enemy_1_img_src = 'main_calc/media/'+data.enemy_img1;
+                $(enemy_1_imgidstr).attr("src", enemy_1_img_src);
+                $(enemy_1_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.enemy_name1+'</b\><br\> Win Rate Against '+data.hero_name+': '+data.enemy_win1+'%');
+
+                enemy_2_img_src = 'main_calc/media/'+data.enemy_img2;
+                $(enemy_2_imgidstr).attr("src", enemy_2_img_src);
+                $(enemy_2_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.enemy_name2+'</b\><br\> Win Rate Against '+data.hero_name+': '+data.enemy_win1+'%');
+
+                enemy_3_img_src = 'main_calc/media/'+data.enemy_img3;
+                $(enemy_3_imgidstr).attr("src", enemy_3_img_src);
+                $(enemy_3_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.enemy_name3+'</b\><br\> Win Rate Against '+data.hero_name+': '+data.enemy_win1+'%');
+
+                enemy_4_img_src = 'main_calc/media/'+data.enemy_img4;
+                $(enemy_4_imgidstr).attr("src", enemy_4_img_src);
+                $(enemy_4_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.enemy_name4+'</b\><br\> Win Rate Against '+data.hero_name+': '+data.enemy_win1+'%');
+
+                enemy_5_img_src = 'main_calc/media/'+data.enemy_img5;
+                $(enemy_5_imgidstr).attr("src", enemy_5_img_src);
+                $(enemy_5_imgidstr+"_tooltip").attr("data-original-title", '<b>'+data.enemy_name5+'</b\><br\> Win Rate Against '+data.hero_name+': '+data.enemy_win1+'%');
+                
+                
             }
         }
     })

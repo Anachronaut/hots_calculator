@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import logging
 import re
-from selenium import webdriver
 from hots_scraper.hots_scraper.items import HotsScraperHero
 
+
+def check_for_100per(rate_list):
+    ctr = 0
+    for i in rate_list:
+        if ctr == 2:
+            return True
+        elif i[1] == 100 or i[1] == 100.00:
+            ctr = ctr + 1
+    return False
 
 class HotsSpider(scrapy.Spider):
     name = 'hots_spider'
@@ -44,27 +53,34 @@ class HotsSpider(scrapy.Spider):
         match_list = []
         for i in data:
             popup_txt = i.css("div.popup::text").get()
-            #print(item['name'], popup_txt)
-            win_per = re.search('(\d+(\.\d+)?%)',popup_txt).group()
+            win_per = (re.search('(\d+(\.\d+)?%)',popup_txt).group())
+            win_per = float(win_per.replace('%', ''))
             hero_name = i.css("div.popup h4::text").get()
             hero_win_tuple = (hero_name, win_per)
             match_list.append(hero_win_tuple)
-        print('URL:', response.request.url, 'NAME:', item['name'], 'LIST:', match_list)
         
-        #print('ITEM:', item['name'])
+        #hundreds = check_for_100per(match_list)
+
+        #if not hundreds:
+
+        if len(match_list) <=9:
+            diff = 10 - len(match_list)
+            for i in range(diff):
+                match_list.append('No Match', '0.0')
         
         for i,j in enumerate(match_list[:5],1):
             str_i = str(i)
             #print(item['name']+':','Ally'+str_i,j)
-            '''
+            
             item['ally_'+str_i] = j[0]
             item['ally_'+str_i+'_win'] = j[1]
-            '''
+
         for i,j in enumerate(match_list[5:],1):
             str_i = str(i)
-            #print(item['name']+':','Enemy'+str_i,j)
-            '''
             item['enemy_'+str_i] = j[0]
             item['enemy_'+str_i+'_win'] = j[1]
-            '''
+        
         yield item
+
+        #else:
+            #logging.log(30, 'Multiple 100% victories or losses, double-check data')
