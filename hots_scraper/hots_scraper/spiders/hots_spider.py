@@ -43,7 +43,7 @@ class HotsSpider(scrapy.Spider):
                 loss_total = j.css("td.losses_cell::text").get()
                 item['loss_total'] = int(loss_total.replace(',',''))
                 request = scrapy.Request("https://heroesprofile.com/Global/Matchups/?timeframe_type=major&timeframe=2.49&hero="+item['name']+"&game_type=sl",
-                                         callback=self.parse_match)
+                                         callback=self.parse_match) #TODO: Scrape Major Patch Dropdown for this URL^
                 request.meta['item'] = item
                 yield request
 

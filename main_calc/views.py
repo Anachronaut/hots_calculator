@@ -7,7 +7,7 @@ import json
 from hots_calculator import settings
 
 
-#removed = []
+#TODO: Implement sessions, cookies to stop using one set of global dicts for every user
 removed_form_key = {}
 removed_hero_key = {}
 
@@ -41,7 +41,7 @@ def homepage(request):
     'opp_select_form5': opp_select_form5}
     )
 
-def validate_hero(request):
+def hero_update(request):
     hero_id = request.GET.get('hero', None)
     form_id = request.GET.get('formid', None)
     selected = 0
