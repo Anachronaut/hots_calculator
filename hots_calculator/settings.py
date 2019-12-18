@@ -39,6 +39,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'hots_calculator.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

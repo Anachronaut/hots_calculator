@@ -100,11 +100,15 @@ def validate_hero(request):
     if hero_id in removed_hero_key and form_id not in removed_form_key:
         selected = True
     elif hero_id in removed_hero_key and form_id in removed_form_key:
-        selected = True
         form_hero = removed_form_key[form_id]
-        print('Form Hero:',form_hero)
-        print(removed_hero_key)
         del removed_hero_key[form_hero]
+        if hero_id in removed_form_key.values():
+            selected = True
+        else:
+            removed_form_key[form_id] = hero_id
+        print('Form Hero:',form_hero)
+        if form_hero in removed_hero_key:
+            del removed_hero_key[form_hero]
         del removed_form_key[form_id]
     
     elif hero_id == '':

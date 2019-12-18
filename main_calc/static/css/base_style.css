@@ -206,3 +206,33 @@ a.data-toggle {
 .opp_match {
     text-align: right;
 }
+
+.alertify .ajs-dialog {
+    margin: 15% auto !important;
+}
+
+
+.alertify.ajs-frameless .ajs-body .ajs-content {
+    font-family: "Metronic", sans-serif;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(63, 65, 190) !important;
+    padding-top: 2.3em;
+    text-align: center;
+    font-size: large;
+    border-radius: 25px;
+}
+
+.alertify.ajs-frameless:not(.ajs-resizable) .ajs-dialog {
+    background-color: rgb(63, 65, 190) !important;
+    opacity: 75% !important;
+    box-shadow: 0 1px 0 1px black;
+    border-width: 1px;
+    border-color: white;
+    border-style: groove;
+    border-radius: 25px;
+}
+
+button .ajs-button .ajs-ok {
+    text-align: center;
+}

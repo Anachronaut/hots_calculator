@@ -552,9 +552,11 @@
 
 
 {% block javascript %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 
+<script>
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });
@@ -606,7 +608,7 @@ $(".select_form").change(function validate() {
         dataType: 'json',
         success: function (data) {
             if (data.is_chosen) {
-                alert("This hero has already been chosen or banned");
+                alertify.alert("This hero has already been chosen or banned").set({transition:'fade', frameless:true});
                 $(formidstr).prop('selectedIndex', 0);
 
                 $(hero_imgidstr).attr("src", "main_calc/media/hero_images/unk.png");
