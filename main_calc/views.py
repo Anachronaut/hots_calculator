@@ -97,11 +97,15 @@ def validate_hero(request):
         enemy_name5 = enemy_5[0]['name']
         enemy_win5 = hero[0]['enemy_5_win']
 
+    if form_id in removed_form_key:
+        form_hero = removed_form_key[form_id]
+        if form_hero in removed_hero_key and form_id in removed_form_key:
+            del removed_hero_key[form_hero]
     if hero_id in removed_hero_key and form_id not in removed_form_key:
         selected = True
     elif hero_id in removed_hero_key and form_id in removed_form_key:
-        form_hero = removed_form_key[form_id]
-        del removed_hero_key[form_hero]
+        if form_hero in removed_hero_key:
+            del removed_hero_key[form_hero]
         if hero_id in removed_form_key.values():
             selected = True
         else:
