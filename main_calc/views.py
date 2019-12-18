@@ -7,7 +7,9 @@ import json
 from hots_calculator import settings
 
 
-removed = []
+#removed = []
+removed_form_key = {}
+removed_hero_key = {}
 
 def homepage(request):
     ally_select_form1 = AllySelectForm(prefix="ally_select_form1")
@@ -41,6 +43,9 @@ def homepage(request):
 
 def validate_hero(request):
     hero_id = request.GET.get('hero', None)
+    form_id = request.GET.get('formid', None)
+    selected = 0
+    print('Hero ID:',hero_id)
     if hero_id != '':
         hero = Hero.objects.filter(id=hero_id).values()
         hero_img = hero[0]['image']
@@ -91,25 +96,67 @@ def validate_hero(request):
         enemy_img5 = enemy_5[0]['image']
         enemy_name5 = enemy_5[0]['name']
         enemy_win5 = hero[0]['enemy_5_win']
-        
-    selected = False
-    if hero_id in removed:
+
+    if hero_id in removed_hero_key and form_id not in removed_form_key:
         selected = True
+    elif hero_id in removed_hero_key and form_id in removed_form_key:
+        selected = True
+        form_hero = removed_form_key[form_id]
+        print('Form Hero:',form_hero)
+        print(removed_hero_key)
+        del removed_hero_key[form_hero]
+        del removed_form_key[form_id]
+    
     elif hero_id == '':
+        hero_name = ''
+        hero_winr = ''
+        hero_wins = ''
+        hero_loss = ''
+        hero_gplay = ''
         hero_img = "hero_images/unk.png"
         ally_img1 = "hero_images/unk.png"
+        ally_name1 = ''
+        ally_win1 = ''
         ally_img2 = "hero_images/unk.png"
+        ally_name2 = ''
+        ally_win2 = ''
         ally_img3 = "hero_images/unk.png"
+        ally_name3 = ''
+        ally_win3 = ''
         ally_img4 = "hero_images/unk.png"
+        ally_name4 = ''
+        ally_win4 = ''
         ally_img5 = "hero_images/unk.png"
+        ally_name5 = ''
+        ally_win5 = ''
         enemy_img1 = "hero_images/unk.png"
+        enemy_name1 = ''
+        enemy_win1 = ''
         enemy_img2 = "hero_images/unk.png"
+        enemy_name2 = ''
+        enemy_win2 = ''
         enemy_img3 = "hero_images/unk.png"
+        enemy_name3 = ''
+        enemy_win3 = ''
         enemy_img4 = "hero_images/unk.png"
+        enemy_name4 = ''
+        enemy_win4 = ''
         enemy_img5 = "hero_images/unk.png"
+        enemy_name5 = ''
+        enemy_win5 = ''
+
+        form_hero = removed_form_key[form_id]
+        print('Form Hero:',form_hero)
+        del removed_hero_key[form_hero]
+        del removed_form_key[form_id]
+
     else:
-        removed.append(hero_id)
-    print(removed)
+        removed_form_key[form_id] = hero_id
+        removed_hero_key[hero_id] = form_id
+
+    print('form key:',removed_form_key)
+    print('hero key:',removed_hero_key)
+    
     data = {
         'is_chosen': selected,
         'hero_id': hero_id,
@@ -154,8 +201,8 @@ def validate_hero(request):
 
 def reset(request):
     if (request.GET.get('reset-button')):
-        del removed[:]
-        print(removed)
+        removed_form_key.clear()
+        removed_hero_key.clear()
     else:
         print('!')
     return redirect('homepage')

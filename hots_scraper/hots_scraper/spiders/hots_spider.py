@@ -42,7 +42,7 @@ class HotsSpider(scrapy.Spider):
                 item['win_total'] = int(win_total.replace(',',''))
                 loss_total = j.css("td.losses_cell::text").get()
                 item['loss_total'] = int(loss_total.replace(',',''))
-                request = scrapy.Request("https://heroesprofile.com/Global/Matchups/?hero="+item['name'],
+                request = scrapy.Request("https://heroesprofile.com/Global/Matchups/?timeframe_type=major&timeframe=2.49&hero="+item['name']+"&game_type=sl",
                                          callback=self.parse_match)
                 request.meta['item'] = item
                 yield request

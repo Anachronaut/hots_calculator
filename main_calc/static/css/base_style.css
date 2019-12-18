@@ -19,6 +19,7 @@ body {
 
 .base-header h1 {
     color: white;
+    margin-top: 15px;
     font-family: "Source Sans Pro", sans-serif;
     text-shadow: 4px 4px 5px black;
 }
@@ -196,4 +197,12 @@ p {
     height: 35px;
     border-radius: 35%;
     border: 1px solid rgb(255, 51, 61);
+}
+
+a.data-toggle {
+    opacity: 50%;
+}
+
+.opp_match {
+    text-align: right;
 }
