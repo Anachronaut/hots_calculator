@@ -12,22 +12,27 @@ removed_form_key = {}
 removed_hero_key = {}
 
 def homepage(request):
+
     ally_select_form1 = AllySelectForm(prefix="ally_select_form1")
     ally_select_form2 = AllySelectForm(prefix="ally_select_form2")
     ally_select_form3 = AllySelectForm(prefix="ally_select_form3")
     ally_select_form4 = AllySelectForm(prefix="ally_select_form4")
     ally_select_form5 = AllySelectForm(prefix="ally_select_form5")
+
     ally_ban_form1 = AllyBanForm(prefix="ally_ban_form1")
     ally_ban_form2 = AllyBanForm(prefix="ally_ban_form2")
     ally_ban_form3 = AllyBanForm(prefix="ally_ban_form3")
+
     opp_select_form1 = OpponentSelectForm(prefix="opp_select_form1")
     opp_select_form2 = OpponentSelectForm(prefix="opp_select_form2")
     opp_select_form3 = OpponentSelectForm(prefix="opp_select_form3")
     opp_select_form4 = OpponentSelectForm(prefix="opp_select_form4")
     opp_select_form5 = OpponentSelectForm(prefix="opp_select_form5")
+
     opp_ban_form1 = OpponentBanForm(prefix="opp_ban_form1")
     opp_ban_form2 = OpponentBanForm(prefix="opp_ban_form2")
     opp_ban_form3 = OpponentBanForm(prefix="opp_ban_form3")
+
     return render(
     request, 
     'home.html', {'ally_select_form1': ally_select_form1, 
@@ -41,127 +46,95 @@ def homepage(request):
     'opp_select_form5': opp_select_form5}
     )
 
+
+
+
+
+'''
+Checks if select form selected option is already chosen
+and if it is, whether or not it should be still recorded
+as chosen. Pulls hero and matchup data, including images
+and sends them back to the AJAX function in the homepage 
+template
+'''
+
 def hero_update(request):
-    print('REQUEST:',request)
     hero_id = request.GET.get('hero', None)
     form_id = request.GET.get('formid', None)
-    print(Hero.objects.all())
     selected = False
+    d={}
+
     if hero_id != '':
         hero = Hero.objects.filter(id=hero_id).values()
-        print('HERO:',hero)
+        #print('HERO:',hero)
         hero_img = hero[0]['image']
         hero_name = hero[0]['name']
         hero_winr = hero[0]['win_rate']
         hero_wins = hero[0]['win_total']
         hero_loss = hero[0]['loss_total']
         hero_gplay = hero[0]['games_played']
+        
+        for i,j in enumerate(range(5), 1):
+            str_i = str(i)
+            d["ally{0}".format(i)] = Hero.objects.filter(name=hero[0]['ally_'+str_i]).values()
+            d["ally_img{0}".format(i)] = d["ally{0}".format(i)][0]['image']
+            d["ally_name{0}".format(i)] = d["ally{0}".format(i)][0]['name']
+            d["ally_win{0}".format(i)] = d["ally{0}".format(i)][0]['ally_'+str_i+'_win']
 
-        ally_1 = Hero.objects.filter(name=hero[0]['ally_1']).values()
-        ally_img1 = ally_1[0]['image']
-        ally_name1 = ally_1[0]['name']
-        ally_win1 = hero[0]['ally_1_win']
-        ally_2 = Hero.objects.filter(name=hero[0]['ally_2']).values()
-        ally_img2 = ally_2[0]['image']
-        ally_name2 = ally_2[0]['name']
-        ally_win2 = hero[0]['ally_2_win']
-        ally_3 = Hero.objects.filter(name=hero[0]['ally_3']).values()
-        ally_img3 = ally_3[0]['image']
-        ally_name3 = ally_3[0]['name']
-        ally_win3 = hero[0]['ally_3_win']
-        ally_4 = Hero.objects.filter(name=hero[0]['ally_4']).values()
-        ally_img4 = ally_4[0]['image']
-        ally_name4 = ally_4[0]['name']
-        ally_win4 = hero[0]['ally_4_win']
-        ally_5 = Hero.objects.filter(name=hero[0]['ally_5']).values()
-        ally_img5 = ally_5[0]['image']
-        ally_name5 = ally_5[0]['name']
-        ally_win5 = hero[0]['ally_5_win']
+            d["enemy{0}".format(i)] = Hero.objects.filter(name=hero[0]['enemy_'+str_i]).values()
+            d["enemy_img{0}".format(i)] = d["enemy{0}".format(i)][0]['image']
+            d["enemy_name{0}".format(i)] = d["enemy{0}".format(i)][0]['name']
+            d["enemy_win{0}".format(i)] = d["enemy{0}".format(i)][0]['enemy_'+str_i+'_win']
 
-        enemy_1 = Hero.objects.filter(name=hero[0]['enemy_1']).values()
-        enemy_img1 = enemy_1[0]['image']
-        enemy_name1 = enemy_1[0]['name']
-        enemy_win1 = hero[0]['enemy_1_win']
-        enemy_2 = Hero.objects.filter(name=hero[0]['enemy_2']).values()
-        enemy_img2 = enemy_2[0]['image']
-        enemy_name2 = enemy_2[0]['name']
-        enemy_win2 = hero[0]['enemy_2_win']
-        enemy_3 = Hero.objects.filter(name=hero[0]['enemy_3']).values()
-        enemy_img3 = enemy_3[0]['image']
-        enemy_name3 = enemy_3[0]['name']
-        enemy_win3 = hero[0]['enemy_3_win']
-        enemy_4 = Hero.objects.filter(name=hero[0]['enemy_4']).values()
-        enemy_img4 = enemy_4[0]['image']
-        enemy_name4 = enemy_4[0]['name']
-        enemy_win4 = hero[0]['enemy_4_win']
-        enemy_5 = Hero.objects.filter(name=hero[0]['enemy_5']).values()
-        enemy_img5 = enemy_5[0]['image']
-        enemy_name5 = enemy_5[0]['name']
-        enemy_win5 = hero[0]['enemy_5_win']
 
-    if form_id in removed_form_key:
-        form_hero = removed_form_key[form_id]
-        if form_hero in removed_hero_key and form_id in removed_form_key:
-            del removed_hero_key[form_hero]
-    if hero_id in removed_hero_key and form_id not in removed_form_key:
-        selected = True
-    elif hero_id in removed_hero_key and form_id in removed_form_key:
-        if form_hero in removed_hero_key:
-            del removed_hero_key[form_hero]
-        if hero_id in removed_form_key.values():
-            selected = True
-        else:
-            removed_form_key[form_id] = hero_id
-        if form_hero in removed_hero_key:
-            del removed_hero_key[form_hero]
-        del removed_form_key[form_id]
+    if form_id in removed_form_key:                                        #Checks if select field has already been used
+        form_hero = removed_form_key[form_id]                              #Sets previously selected hero from current select field
+        if form_hero in removed_hero_key and form_id in removed_form_key:  #Check if previously selected hero is still recorded as selected
+            del removed_hero_key[form_hero]                                #Removes previous hero when deselected
     
-    elif hero_id == '':
+    if hero_id in removed_hero_key and form_id not in removed_form_key:    #Check if currently selected hero already selected by another select field
+        selected = True
+    elif hero_id in removed_hero_key and form_id in removed_form_key:      #Check if currently selected hero is registered as selected and if current select field has already been used
+        if form_hero in removed_hero_key:                                  #Check if previously selected hero is still recorded as selected
+            del removed_hero_key[form_hero] #Removes previous hero
+
+        if hero_id in removed_form_key.values():                           #Check if currently selected hero selected by another select field
+            selected = True
+        else:                                                              #If not selected by another field, set current field's selection to selected hero
+            removed_form_key[form_id] = hero_id
+
+        if form_hero in removed_hero_key:                                  #Check if previously selected hero still registered as selected
+            del removed_hero_key[form_hero] #Removes previous hero
+        del removed_form_key[form_id] #Removes form's selected status
+    
+    elif hero_id == '': #Check if no hero, or "No Hero Selected" selected, set to empty values, default images
         hero_name = ''
         hero_winr = ''
         hero_wins = ''
         hero_loss = ''
         hero_gplay = ''
         hero_img = "hero_images/unk.png"
-        ally_img1 = "hero_images/unk.png"
-        ally_name1 = ''
-        ally_win1 = ''
-        ally_img2 = "hero_images/unk.png"
-        ally_name2 = ''
-        ally_win2 = ''
-        ally_img3 = "hero_images/unk.png"
-        ally_name3 = ''
-        ally_win3 = ''
-        ally_img4 = "hero_images/unk.png"
-        ally_name4 = ''
-        ally_win4 = ''
-        ally_img5 = "hero_images/unk.png"
-        ally_name5 = ''
-        ally_win5 = ''
-        enemy_img1 = "hero_images/unk.png"
-        enemy_name1 = ''
-        enemy_win1 = ''
-        enemy_img2 = "hero_images/unk.png"
-        enemy_name2 = ''
-        enemy_win2 = ''
-        enemy_img3 = "hero_images/unk.png"
-        enemy_name3 = ''
-        enemy_win3 = ''
-        enemy_img4 = "hero_images/unk.png"
-        enemy_name4 = ''
-        enemy_win4 = ''
-        enemy_img5 = "hero_images/unk.png"
-        enemy_name5 = ''
-        enemy_win5 = ''
+
+        for i,j in enumerate(range(5), 1):
+            d["ally_img{0}".format(i)] = "hero_images/unk.png"
+            d["ally_name{0}".format(i)] = ''
+            d["ally_win{0}".format(i)] = ''
+
+            d["enemy_img{0}".format(i)] = "hero_images/unk.png"
+            d["enemy_name{0}".format(i)] = ''
+            d["enemy_win{0}".format(i)] = ''
+
 
         form_hero = removed_form_key[form_id]
-        del removed_hero_key[form_hero]
-        del removed_form_key[form_id]
+        if form_hero in removed_hero_key:       #Check if previously selected hero still registered as selected
+            del removed_hero_key[form_hero]     #Removes previously selected hero
+        del removed_form_key[form_id]           #Removes form's selected status
 
     else:
         removed_form_key[form_id] = hero_id
         removed_hero_key[hero_id] = form_id
     
+
     data = {
         'is_chosen': selected,
         'hero_id': hero_id,
@@ -171,40 +144,45 @@ def hero_update(request):
         'hero_wins': hero_wins,
         'hero_loss': hero_loss,
         'hero_gplay': hero_gplay,
-        'ally_img1': ally_img1,
-        'ally_name1': ally_name1,
-        'ally_win1': ally_win1,
-        'ally_img2': ally_img2,
-        'ally_name2': ally_name2,
-        'ally_win2': ally_win2,
-        'ally_img3': ally_img3,
-        'ally_name3': ally_name3,
-        'ally_win3': ally_win3,
-        'ally_img4': ally_img4,
-        'ally_name4': ally_name4,
-        'ally_win4': ally_win4,
-        'ally_img5': ally_img5,
-        'ally_name5': ally_name5,
-        'ally_win5': ally_win5,
-        'enemy_img1': enemy_img1,
-        'enemy_name1': enemy_name1,
-        'enemy_win1': enemy_win1,
-        'enemy_img2': enemy_img2,
-        'enemy_name2': enemy_name2,
-        'enemy_win2': enemy_win2,
-        'enemy_img3': enemy_img3,
-        'enemy_name3': enemy_name3,
-        'enemy_win3': enemy_win3,
-        'enemy_img4': enemy_img4,
-        'enemy_name4': enemy_name4,
-        'enemy_win4': enemy_win4,
-        'enemy_img5': enemy_img5,
-        'enemy_name5': enemy_name5,
-        'enemy_win5': enemy_win5
+        'ally_img1': d['ally_img1'],
+        'ally_name1': d['ally_name1'],
+        'ally_win1': d['ally_win1'],
+        'ally_img2': d['ally_img2'],
+        'ally_name2': d['ally_name2'],
+        'ally_win2': d['ally_win2'],
+        'ally_img3': d['ally_img3'],
+        'ally_name3': d['ally_name3'],
+        'ally_win3': d['ally_win3'],
+        'ally_img4': d['ally_img4'],
+        'ally_name4': d['ally_name4'],
+        'ally_win4': d['ally_win4'],
+        'ally_img5': d['ally_img5'],
+        'ally_name5': d['ally_name5'],
+        'ally_win5': d['ally_win5'],
+        'enemy_img1': d['enemy_img1'],
+        'enemy_name1': d['enemy_name1'],
+        'enemy_win1': d['enemy_win1'],
+        'enemy_img2': d['enemy_img2'],
+        'enemy_name2': d['enemy_name2'],
+        'enemy_win2': d['enemy_win2'],
+        'enemy_img3': d['enemy_img3'],
+        'enemy_name3': d['enemy_name3'],
+        'enemy_win3': d['enemy_win3'],
+        'enemy_img4': d['enemy_img4'],
+        'enemy_name4': d['enemy_name4'],
+        'enemy_win4': d['enemy_win4'],
+        'enemy_img5': d['enemy_img5'],
+        'enemy_name5': d['enemy_name5'],
+        'enemy_win5': d['enemy_win5']
     }
+
     return JsonResponse(data)
 
-def reset(request):
+
+
+
+
+def reset(request): #Reset button, resets global dicts
     if (request.GET.get('reset-button')):
         removed_form_key.clear()
         removed_hero_key.clear()
