@@ -9,11 +9,10 @@ def check_field(obj, fieldname):
 
 class HeroTest(TestCase):
 
-    def create_hero(
-        self, name="Bob", image="hero_images/Cho.jpg", 
-        win_rate=30.5, popularity=3, ban_rate=80.5, 
-        games_played=2000, win_total=5, loss_total=1995, 
-        ally_1='Steve', ally_1_win=50.05, enemy_1='Tom', enemy_1_win=25.50):
+    def create_hero(self, 
+        name, image, win_rate, popularity, ban_rate, 
+        games_played, win_total, loss_total, ally_1, ally_1_win, 
+        enemy_1, enemy_1_win):
 
         return Hero.objects.create(name=name, image=image, win_rate=win_rate, 
         popularity=popularity, ban_rate=ban_rate, games_played=games_played, 
@@ -21,8 +20,9 @@ class HeroTest(TestCase):
         ally_1_win=ally_1_win, enemy_1=enemy_1, enemy_1_win=enemy_1_win)
 
 
-    def test_hero_creation(self):
-        hero = self.create_hero()
+    def test_hero_creation_correct(self):
+        hero = self.create_hero("Bob","hero_images/Cho.jpg", 30.5, 3, 80.5, 
+        2000, 5, 1995, 'Steve', 50.05, 'Tom', 25.50)
         imgfield = check_field(hero, 'image')
         win_rfield = check_field(hero, 'win_rate')
         popfield = check_field(hero, 'popularity')
@@ -48,4 +48,39 @@ class HeroTest(TestCase):
         self.assertTrue(isinstance(a1_wfield, DecimalField))
         self.assertTrue(isinstance(e1field, CharField))
         self.assertTrue(isinstance(e1_wfield, DecimalField))
+
+
+    def test_hero_content_length(self):
+        hero = self.create_hero("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "hero_images/Cho.jpg", 3320.50456, 3, 8224.34456, 
+        2000, 5, 1995, 'Steve', 50.05, 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ', 
+        2533.502334)
+        name = check_field(hero, 'name')
+        win_rfield = check_field(hero, 'win_rate')
+        banfield = check_field(hero, 'ban_rate')
+        a1field = check_field(hero, 'ally_1')
+        a1_wfield = check_field(hero, 'ally_1_win')
+        e1field = check_field(hero, 'enemy_1')
+        e1_wfield = check_field(hero, 'enemy_1_win')
+
+        self.assertFalse(len(hero.name) <= name.max_length)
+        self.assertFalse(len(str(hero.win_rate).replace('.', '')) <= win_rfield.max_digits)
+        self.assertFalse(len(str(hero.ban_rate).replace('.', '')) <= banfield.max_digits)
+        self.assertTrue(len(hero.ally_1) <= a1field.max_length)
+        self.assertTrue(len(str(hero.ally_1_win).replace('.', '')) <= a1_wfield.max_digits)
+        self.assertFalse(len(hero.enemy_1) <= e1field.max_length)
+        self.assertFalse(len(str(hero.enemy_1_win).replace('.', '')) <= e1_wfield.max_digits)
     
+    
+    def test_hero_image_format(self):
+        hero1 = self.create_hero("Bob","hero_imgs/Cho.png", 30.5, 3, 80.5, 
+        2000, 5, 1995, 'Steve', 50.05, 'Tom', 25.50)
+
+        self.assertNotEqual(str(hero1.image).split('/')[0], 'hero_images')
+        self.assertNotEqual(str(hero1.image)[-4:], '.jpg')
+
+        hero2 = self.create_hero("Bob","hero_images/Cho.jpg", 30.5, 3, 80.5, 
+        2000, 5, 1995, 'Steve', 50.05, 'Tom', 25.50)
+
+        self.assertEqual(str(hero2.image).split('/')[0], 'hero_images')
+        self.assertEqual(str(hero2.image)[-4:], '.jpg')
