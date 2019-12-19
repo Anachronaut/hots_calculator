@@ -49,12 +49,11 @@ class HotsScraperPipeline(object):
     def process_item(self, item, spider):
         self.cursor.execute("select * from main_calc_hero where name=?", (item['name'],))
         result = self.cursor.fetchone()
-        if result:
+        if result: #Check if hero already in database. If it is, delete it.
             if item['name'] == result[1]:
-                #logging.exception("Item already in database: %s" % item)
+                logging.exception("Item already in database: %s" % item)
                 self.cursor.execute("delete from main_calc_hero where name = ?", (item['name'],))
                 self.connection.commit()
-                #logging.log(20, "Item stored : " % item)
             
         image = 'hero_images/' + item['images'][0]['path']
 
@@ -65,24 +64,14 @@ class HotsScraperPipeline(object):
 
         self.cursor.execute(insert_str, insert_vals)
         self.connection.commit()
-        #logging.log(20, "Item stored : " % item)
+        logging.log(20, "Item stored : " % item)
         return item
 
-def get_media_requests(self, item, info):
-    # values in field "image_name" must have suffix ".jpg"
-    # you can only change "image_name" to your own image name filed "images"
-    # however it should be a list
-    for (image_url, image_name) in zip(item[self.IMAGES_URLS_FIELD], item["image_name"]):
-        yield scrapy.Request(url=image_url, meta={"image_name": name})
-
-def file_path(self, item, response=None, info=None):
-    image_guid = item['name']
-    return '%s.jpg' % (image_guid)
 
 def handle_error(self, e):
     logging.error(e)
 
-class HeroImagesPipeline(ImagesPipeline):
+class HeroImagesPipeline(ImagesPipeline): #change image name to [hero name].jpg
     def get_media_requests(self, item, info):
         return [scrapy.Request(x, meta={'image_name': item["name"]}) 
                 for x in item.get('image_urls', [])]
