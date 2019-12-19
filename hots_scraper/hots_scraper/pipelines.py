@@ -47,7 +47,6 @@ class HotsScraperPipeline(object):
             enemy_5_win REAL(8))''')
 
     def process_item(self, item, spider):
-        print('PIPELINE: ', item)
         self.cursor.execute("select * from main_calc_hero where name=?", (item['name'],))
         result = self.cursor.fetchone()
         if result:

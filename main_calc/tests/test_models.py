@@ -70,17 +70,3 @@ class HeroTest(TestCase):
         self.assertTrue(len(str(hero.ally_1_win).replace('.', '')) <= a1_wfield.max_digits)
         self.assertFalse(len(hero.enemy_1) <= e1field.max_length)
         self.assertFalse(len(str(hero.enemy_1_win).replace('.', '')) <= e1_wfield.max_digits)
-    
-    
-    def test_hero_image_format(self):
-        hero1 = self.create_hero("Bob","hero_imgs/Cho.png", 30.5, 3, 80.5, 
-        2000, 5, 1995, 'Steve', 50.05, 'Tom', 25.50)
-
-        self.assertNotEqual(str(hero1.image).split('/')[0], 'hero_images')
-        self.assertNotEqual(str(hero1.image)[-4:], '.jpg')
-
-        hero2 = self.create_hero("Bob","hero_images/Cho.jpg", 30.5, 3, 80.5, 
-        2000, 5, 1995, 'Steve', 50.05, 'Tom', 25.50)
-
-        self.assertEqual(str(hero2.image).split('/')[0], 'hero_images')
-        self.assertEqual(str(hero2.image)[-4:], '.jpg')

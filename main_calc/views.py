@@ -42,12 +42,14 @@ def homepage(request):
     )
 
 def hero_update(request):
+    print('REQUEST:',request)
     hero_id = request.GET.get('hero', None)
     form_id = request.GET.get('formid', None)
-    selected = 0
-    print('Hero ID:',hero_id)
+    print(Hero.objects.all())
+    selected = False
     if hero_id != '':
         hero = Hero.objects.filter(id=hero_id).values()
+        print('HERO:',hero)
         hero_img = hero[0]['image']
         hero_name = hero[0]['name']
         hero_winr = hero[0]['win_rate']
@@ -110,7 +112,6 @@ def hero_update(request):
             selected = True
         else:
             removed_form_key[form_id] = hero_id
-        print('Form Hero:',form_hero)
         if form_hero in removed_hero_key:
             del removed_hero_key[form_hero]
         del removed_form_key[form_id]
@@ -154,16 +155,12 @@ def hero_update(request):
         enemy_win5 = ''
 
         form_hero = removed_form_key[form_id]
-        print('Form Hero:',form_hero)
         del removed_hero_key[form_hero]
         del removed_form_key[form_id]
 
     else:
         removed_form_key[form_id] = hero_id
         removed_hero_key[hero_id] = form_id
-
-    print('form key:',removed_form_key)
-    print('hero key:',removed_hero_key)
     
     data = {
         'is_chosen': selected,
@@ -211,6 +208,4 @@ def reset(request):
     if (request.GET.get('reset-button')):
         removed_form_key.clear()
         removed_hero_key.clear()
-    else:
-        print('!')
     return redirect('homepage')
