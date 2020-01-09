@@ -7,9 +7,9 @@ import json
 from hots_calculator import settings
 
 
-#TODO: Implement sessions, cookies to stop using one set of global dicts for every user
-removed_form_key = {}
-removed_hero_key = {}
+# #TODO: Implement sessions, cookies to stop using one set of global dicts for every user
+# removed_form_key = {}
+# removed_hero_key = {}
 
 def homepage(request):
 
@@ -86,6 +86,8 @@ def hero_update(request):
             d["enemy_name{0}".format(i)] = d["enemy{0}".format(i)][0]['name']
             d["enemy_win{0}".format(i)] = d["enemy{0}".format(i)][0]['enemy_'+str_i+'_win']
 
+    removed_form_key = request.session.get('removed_form_key', {})
+    removed_hero_key = request.session.get('removed_hero_key', {})
 
     if form_id in removed_form_key:                                        #Checks if select field has already been used
         form_hero = removed_form_key[form_id]                              #Sets previously selected hero from current select field
@@ -176,6 +178,9 @@ def hero_update(request):
         'enemy_win5': d['enemy_win5']
     }
 
+    request.session['removed_hero_key'] = removed_hero_key
+    request.session['removed_form_key'] = removed_form_key
+
     return JsonResponse(data)
 
 
@@ -184,6 +189,6 @@ def hero_update(request):
 
 def reset(request): #Reset button, resets global dicts
     if (request.GET.get('reset-button')):
-        removed_form_key.clear()
-        removed_hero_key.clear()
+        request.session.pop('removed_form_key')
+        request.session.pop('removed_hero_key')
     return redirect('homepage')
