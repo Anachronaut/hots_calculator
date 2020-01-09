@@ -31,8 +31,8 @@ class HotsSpider(scrapy.Spider):
                 item['win_total'] = int(win_total.replace(',',''))  #Remove commas from Total Wins
                 loss_total = i.css("td.losses_cell::text").get()    #Hero Total Losses
                 item['loss_total'] = int(loss_total.replace(',',''))    #Remove commas from Total Losses
-                request = scrapy.Request("https://heroesprofile.com/Global/Matchups/?timeframe_type=major&timeframe=2.49&hero="+item['name']+"&game_type=sl",   #Pass to parse_match() to scrape Hero matchups
-                                         callback=self.parse_match) #TODO: Scrape Major Patch Dropdown for this URL^
+                #Pass to parse_match() to scrape Hero matchups
+                request = scrapy.Request("https://heroesprofile.com/Global/Matchups/?timeframe_type=major&timeframe=2.49&hero="+item['name']+"&game_type=sl",   callback=self.parse_match) #TODO: ^Scrape Major Patch Dropdown for this URL
                 request.meta['item'] = item
                 yield request
 

@@ -11,8 +11,8 @@ from hots_calculator import settings
 removed_form_key = {}
 removed_hero_key = {}
 
-def homepage(request):
 
+def homepage(request):
     ally_select_form1 = AllySelectForm(prefix="ally_select_form1")
     ally_select_form2 = AllySelectForm(prefix="ally_select_form2")
     ally_select_form3 = AllySelectForm(prefix="ally_select_form3")
@@ -59,6 +59,14 @@ template
 '''
 
 def hero_update(request):
+    removed_form_key = request.session.get('removed_form_key')
+    if not removed_form_key:
+        removed_form_key = {}
+    removed_hero_key = request.session.get('removed_hero_key')
+    if not removed_hero_key:
+        removed_hero_key = {}
+    request.session['removed_form_key'] = removed_form_key
+    request.session['removed_hero_key'] = removed_hero_key
     hero_id = request.GET.get('hero', None)
     form_id = request.GET.get('formid', None)
     selected = False
@@ -66,7 +74,6 @@ def hero_update(request):
 
     if hero_id != '':
         hero = Hero.objects.filter(id=hero_id).values()
-        #print('HERO:',hero)
         hero_img = hero[0]['image']
         hero_name = hero[0]['name']
         hero_winr = hero[0]['win_rate']
@@ -184,6 +191,8 @@ def hero_update(request):
 
 def reset(request): #Reset button, resets global dicts
     if (request.GET.get('reset-button')):
-        removed_form_key.clear()
-        removed_hero_key.clear()
+        if removed_form_key:
+            del request.session['removed_form_key']
+        if removed_hero_key:
+            del request.session['removed_hero_key']
     return redirect('homepage')

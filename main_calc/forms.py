@@ -11,6 +11,7 @@ class AllySelectForm(forms.Form):
         super(AllySelectForm, self).__init__(*args, **kwargs)
         self.fields['a_draft'].label = "Your Draft Pick"
         self.fields['a_draft'].widget.attrs['class'] = 'select_form'
+        self.fields['a_draft'].widget.attrs['autocomplete'] = 'off'
 
 class OpponentSelectForm(forms.Form):
     o_draft = forms.ModelChoiceField(queryset=Hero.objects.all().order_by('name'), empty_label="No Hero Selected")
@@ -18,6 +19,7 @@ class OpponentSelectForm(forms.Form):
         super(OpponentSelectForm, self).__init__(*args, **kwargs)
         self.fields['o_draft'].label = "Opponent Draft Pick"
         self.fields['o_draft'].widget.attrs['class'] = 'select_form'
+        self.fields['o_draft'].widget.attrs['autocomplete'] = 'off'
 
 class AllyBanForm(forms.Form):
     a_ban = forms.ModelChoiceField(queryset=Hero.objects.all().order_by('name'), empty_label="No Hero Selected")
@@ -25,6 +27,7 @@ class AllyBanForm(forms.Form):
         super(AllyBanForm, self).__init__(*args, **kwargs)
         self.fields['a_ban'].label = "Your Ban"
         self.fields['a_ban'].widget.attrs['class'] = 'select_form'
+        self.fields['a_ban'].widget.attrs['autocomplete'] = 'off'
 
 class OpponentBanForm(forms.Form):
     o_ban = forms.ModelChoiceField(queryset=Hero.objects.all().order_by('name'), empty_label="No Hero Selected")
@@ -32,3 +35,4 @@ class OpponentBanForm(forms.Form):
         super(OpponentBanForm, self).__init__(*args, **kwargs)
         self.fields['o_ban'].label = "Opponent's Ban"
         self.fields['o_ban'].widget.attrs['class'] = 'select_form'
+        self.fields['o_ban'].widget.attrs['autocomplete'] = 'off'

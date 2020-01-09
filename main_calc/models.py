@@ -1,7 +1,6 @@
 from django.db import models
 import os
 
-
 def get_hero_image_path(instance, filename):
     return os.path.join('hero_images/', str(instance.id), filename)
 
