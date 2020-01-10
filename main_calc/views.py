@@ -190,6 +190,8 @@ def hero_update(request):
 
 def reset(request): #Reset button, resets global dicts
     if (request.GET.get('reset-button')):
-        request.session.pop('removed_form_key')
-        request.session.pop('removed_hero_key')
+        if request.session.get('removed_form_key'):
+            request.session.pop('removed_form_key')
+        if request.session.get('removed_hero_key'):
+            request.session.pop('removed_hero_key')
     return redirect('homepage')
