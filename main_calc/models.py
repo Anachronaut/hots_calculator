@@ -1,8 +1,8 @@
 from django.db import models
 import os
 
-def get_hero_image_path(instance, filename):
-    return os.path.join('hero_images/', str(instance.id), filename)
+#def get_hero_image_path(instance, filename):
+    #return os.path.join('hero_images/', str(instance.id), filename)
 
 '''
 class Talent(models.Model):
@@ -24,7 +24,7 @@ class Talent(models.Model):
 
 class Hero(models.Model):
     name = models.CharField(default="hero_name",max_length=25)
-    image = models.ImageField(upload_to="hero_images/", blank=True, null=True)
+    image = models.ImageField(upload_to=".", blank=True, null=True)
     win_rate = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)
     popularity = models.IntegerField(default=0)
     ban_rate = models.DecimalField(default=0.00, max_digits=8, decimal_places=2)

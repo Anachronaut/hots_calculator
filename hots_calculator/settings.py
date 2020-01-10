@@ -7,12 +7,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y!jlh3e@k8si8*6&uq+fe_o%n!go2y!8hji+o(ssxja$o(jo&j'
+SECRET_KEY = '[SECRET_KEY]'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '[APP_URL]'
+]
 
 
 # Application definition
@@ -63,12 +65,35 @@ WSGI_APPLICATION = 'hots_calculator.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# [START db_setup]
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '[INSTANCE_CONNECTION]',
+            'USER': '[DATABASE_USER]',
+            'PASSWORD': '[DATABASE_PASSWORD]',
+            'NAME': '[DATABASE_NAME]',
+            'PORT': '[MYSQL_PORT]',
+        }
+    }
+'''
+# Running locally so connect to either a local MySQL instance or connect 
+# to Cloud SQL via the proxy.  To start the proxy via command line: 
+#    $ cloud_sql_proxy -instances=[hots-calc:us-central1:herodb]=tcp:3306 
+# See https://cloud.google.com/sql/docs/mysql-connect-proxy
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'USER': '[DATABASE_USER]',
+        'PASSWORD': '[DATABASE_PASSWORD]',
+        'NAME': '[DATABASE_NAME]',
+        'PORT': '[MYSQL_PORT]',
     }
 }
+'''
+
+# [END db_setup]
 
 
 # Password validation
@@ -109,6 +134,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATIC_URL = 'https://storage.googleapis.com/hots-static/static/'
+
+
 #Media URL for user-uploaded media
-MEDIA_URL = '/main_calc/media/'
+MEDIA_URL = 'https://storage.googleapis.com/hero-bucket/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'main_calc/media')
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'hero-bucket'
