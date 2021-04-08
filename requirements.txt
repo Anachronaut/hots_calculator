@@ -10,7 +10,7 @@ constantly==15.1.0
 coverage==5.0
 cryptography==2.8
 cssselect==1.1.0
-Django==3.0
+Django==3.0.14
 django-admin==2.0.0
 django-excel-response2==2.0.8
 django-jquery==3.1.0
